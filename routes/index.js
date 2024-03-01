@@ -103,7 +103,6 @@ router.post('/api', (req, res) => {
                 })
                     .then(res => res.json())
                     .then(tourSaleRes => {
-                        console.log(tourSaleRes);
                         const campaignData = {
                             "tour": item.sku,
                             "emailaddress": postedData.email,
@@ -124,7 +123,6 @@ router.post('/api', (req, res) => {
                         })
                             .then(res => res.json())
                             .then(campaignRes => {
-                                console.log(campaignRes)
                                 const affiliateData = {
                                     "tour": "CUR_OTB_CCW",
                                     "affcode": "ABQEU",
@@ -143,7 +141,6 @@ router.post('/api', (req, res) => {
                                 })
                                     .then(res => res.json())
                                     .then(affiliateRes => {
-                                        console.log(affiliateRes)
                                         fetch('https://positivebytes-pg-routes-api-dev.azurewebsites.net/positivebytes/pocketguide/tours/count', {
                                             method: 'GET',
                                             headers: {
@@ -153,7 +150,6 @@ router.post('/api', (req, res) => {
                                         })
                                             .then(res => res.json())
                                             .then(data => {
-                                                console.log(data);
                                                 const transactionData = {
                                                     "transactionId": "c4c9841f-f8aa-4b38-a422-8ba880e9aee9"
                                                 };
@@ -167,26 +163,6 @@ router.post('/api', (req, res) => {
                                                     },
                                                     body: JSON.stringify(transactionData)
                                                 })
-                                                    .then(res => {
-                                                        if (!res.ok) {
-                                                            throw new Error('Network response was not ok');
-                                                        }
-                                                        // Check if response body exists
-                                                        const contentType = res.headers.get('content-type');
-                                                        if (contentType && contentType.includes('application/json')) {
-                                                            return res.json();
-                                                        } else {
-                                                            throw new Error('Invalid JSON response');
-                                                        }
-                                                    })
-                                                    .then(data => {
-                                                        console.log(data);
-                                                    })
-                                                    .catch(err => {
-                                                        console.error('Transaction Error:', err);
-                                                    });
-
-
                                             })
                                             .catch(err => {
                                                 console.error('Get Tour Error:', err);
