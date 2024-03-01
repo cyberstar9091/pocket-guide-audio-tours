@@ -87,8 +87,8 @@ router.post('/api', (req, res) => {
                     // "isAffiliate": false,
                     // "affiliateCode": "ABQEU",
                     // "affiliateControlCode": "e3f218b7a06f460287ab9d424536a698",
-                    "culiWalkDate": item.properties[0].value,
-                    "culiWalkRemarks": item.properties[1].value
+                    "culiWalkDate": item.properties.length ? item.properties[0].value : '',
+                    "culiWalkRemarks": item.properties.length ? item.properties[1].value : ''
                 };
 
                 fetch('https://positivebytes-pg-routes-api-dev.azurewebsites.net/positivebytes/pocketguide/tours/sale', {
