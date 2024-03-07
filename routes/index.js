@@ -38,7 +38,7 @@ router.post('/api', (req, res) => {
         .then(res => res.json())
         .then(json => {
             postedData.line_items.map(item => {
-                if (item.properties.length) console.log(item.properties[0].value);
+                if (item.properties.length) console.log(getDate(item.properties[0].value));
                 const tourSaleData = {
                     "name": postedData.name,
                     "emailaddress": postedData.email,
