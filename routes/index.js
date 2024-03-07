@@ -4,48 +4,13 @@ import { createAdminApiClient, createAdminRestApiClient } from '@shopify/admin-a
 
 const router = express.Router();
 
-router.get('/api', async (req, res) => {
-    const client = createAdminRestApiClient({
-        storeDomain: "https://pocket-guide-audio-tours.myshopify.com",
-        apiVersion: '2024-01',
-        accessToken: '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'
-    });
-
-    //     const operation = `
-    //   query ProductQuery($id: ID!) {
-    //     product(id: $id) {
-    //       id
-    //       title
-    //       handle
-    //     }
-    //   }
-    // `;
-
-    try {
-        const order = await client.get('orders/5568446791836');
-        console.log(order);
-        if (order.ok) {
-            const body = await order.json();
-            console.log(body.order.line_items[0].properties);
-        }
-        // const { data, errors } = await client.request(operation, {
-        //     variables: {
-        //         id: 'gid://shopify/LineItem/12902292586652',
-        //     },
-        // });
-
-        // console.log(data, errors);
-    } catch (error) {
-        console.error("Error fetching product details:", error);
-        return res.status(400).json(error);
-    }
-
-    return res.json('www');
-});
-
-
 router.post('/api', (req, res) => {
     const postedData = req.body;
+
+    const getDate = (date) => {
+        var sub_date = date.split('-');
+        return sub_date[2] + '-' + sub_date[1] + '-' + sub_date[0];
+    }
 
     console.log('posted data is', postedData);
     const authData = {
@@ -88,7 +53,7 @@ router.post('/api', (req, res) => {
                     // "isAffiliate": false,
                     // "affiliateCode": "ABQEU",
                     // "affiliateControlCode": "e3f218b7a06f460287ab9d424536a698",
-                    "culiWalkDate": item.properties.length ? item.properties[0].value : '',
+                    "culiWalkDate": item.properties.length ? getDate(item.properties[0].value) : '',
                     "culiWalkRemarks": item.properties.length ? item.properties[1].value : ''
                 };
 
@@ -124,7 +89,7 @@ router.post('/api', (req, res) => {
                             .then(res => res.json())
                             .then(campaignRes => {
                                 const affiliateData = {
-                                    "tour": "CUR_OTB_CCW",
+                                    "tour": item.sku,
                                     "affcode": "ABQEU",
                                     "source": postedData.source_name,
                                     "code": "9103738e9e1d4b2c9aacd4c4d4960ebd",
